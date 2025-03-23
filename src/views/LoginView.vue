@@ -56,6 +56,8 @@ import VNButton from "@/components/VNButton.vue";
 
 import api from "@/configs/api.js";
 
+import { handleError } from "@/utils/handleError.js";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
 
@@ -86,6 +88,7 @@ const signIn = async (email, password) => {
     router.push("/main/home");
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message);
+    handleError("Login failed", error.response?.data || error.message);
   }
 };
 </script>
