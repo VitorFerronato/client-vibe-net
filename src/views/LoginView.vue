@@ -26,7 +26,7 @@
             placeholder="Your password"
           />
         </div>
-
+        {{ hasError }}
         <div class="d-flex justify-center ga-2 mt-10">
           <VNButton
             @click="router.push('/login/sign-up')"
@@ -56,8 +56,6 @@ import VNButton from "@/components/VNButton.vue";
 
 import api from "@/configs/api.js";
 
-import { handleError } from "@/utils/handleError.js";
-
 import { useRouter } from "vue-router";
 const router = useRouter();
 
@@ -70,6 +68,8 @@ const rules = ref({
     return pattern.test(value) || "Invalid email";
   },
 });
+
+const hasError = ref(false);
 
 const formRef = ref();
 const isLoading = ref(false);
@@ -87,8 +87,9 @@ const signIn = async (email, password) => {
     localStorage.setItem("token", token);
     router.push("/main/home");
   } catch (error) {
+    console.log(error);
     console.error("Login failed:", error.response?.data || error.message);
-    handleError("Login failed", error.response?.data || error.message);
+    if (error?.response?.data?.erro == "user not found") hasError.value = true;
   }
 };
 </script>
