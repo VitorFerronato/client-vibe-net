@@ -45,6 +45,13 @@
           />
         </div>
 
+        <p
+          v-if="hasError"
+          class="text-center text-error text-caption mt-4 mb-0"
+        >
+          Invalid credentials, please, try again!
+        </p>
+
         <div class="d-flex justify-center ga-2 mt-10">
           <VNButton
             @click="router.push('/login/sign-in')"
@@ -77,6 +84,8 @@ import api from "@/configs/api.js";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+const hasError = ref(false);
+
 const showPassword = ref(false);
 const rules = ref({
   required: (value) => !!value || "Required!",
@@ -101,6 +110,8 @@ const validateForm = async () => {
 
 const signUp = async (name, nick, email, password) => {
   isLoading.value = true;
+  hasError.value = false;
+
   try {
     const response = await api.post("/users", {
       name,
@@ -113,6 +124,9 @@ const signUp = async (name, nick, email, password) => {
     if (response?.data) router.push("/login/sign-in");
   } catch (error) {
     console.error("Sign up failed:", error.response?.data || error.message);
+    if (error?.response?.data?.erro?.includes("Error 1062")) {
+      hasError.value = true;
+    }
   }
   isLoading.value = false;
 };
