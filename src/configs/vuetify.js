@@ -7,6 +7,7 @@ import {
   VCard,
   VTextField,
   VForm,
+  VProgressCircular,
 } from "vuetify/components";
 import "vuetify/styles";
 import "@mdi/font/css/materialdesignicons.css";
@@ -20,6 +21,7 @@ const vuetify = createVuetify({
     VCard,
     VTextField,
     VForm,
+    VProgressCircular,
   },
   theme: {
     defaultTheme: "customTheme",

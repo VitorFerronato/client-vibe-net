@@ -32,6 +32,15 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/sign-out",
+    name: "sign-out",
+    component: () => import("../views/SignOut.vue"),
+    meta: {
+      title: "LOG OFF",
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({

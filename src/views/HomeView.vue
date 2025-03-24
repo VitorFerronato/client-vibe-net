@@ -1,7 +1,6 @@
 <template>
-  <v-container fluid> HOME </v-container>
+  <v-container fluid>
+    <h4>HOME</h4>
+    <router-link to="/sign-out">Logout</router-link>
+  </v-container>
 </template>
-
-<script setup></script>
-
-<style lang="scss" scoped></style>
