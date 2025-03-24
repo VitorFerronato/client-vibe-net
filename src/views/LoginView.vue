@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="h-screen d-flex align-center justify-center">
-    <v-card class="px-8 py-14 login-card">
+    <v-card class="px-8 py-14 login-card" :disabled="isLoading">
       <h5 class="text-h4 text-center mb-6">SIGN IN</h5>
       <v-form @submit.prevent="validateForm" ref="formRef">
         <div>
@@ -26,9 +26,15 @@
             placeholder="Your password"
           />
         </div>
-        {{ hasError }}
+        <p
+          v-if="hasError"
+          class="text-center text-error text-caption mt-4 mb-0"
+        >
+          Invalid user or password!
+        </p>
         <div class="d-flex justify-center ga-2 mt-10">
           <VNButton
+            :disabled="isLoading"
             @click="router.push('/login/sign-up')"
             label="CREATE ACCOUNT"
             type="button"
@@ -81,6 +87,9 @@ const validateForm = async () => {
 };
 
 const signIn = async (email, password) => {
+  hasError.value = false;
+  isLoading.value = true;
+
   try {
     const response = await api.post("/login", { email, password });
     const token = response?.data ?? "";
@@ -91,6 +100,8 @@ const signIn = async (email, password) => {
     console.error("Login failed:", error.response?.data || error.message);
     if (error?.response?.data?.erro == "user not found") hasError.value = true;
   }
+
+  isLoading.value = false;
 };
 </script>
 
